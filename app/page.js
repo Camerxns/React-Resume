@@ -1,95 +1,91 @@
+'use client';
+import { useState } from 'react';
 import Image from 'next/image'
 import styles from './page.module.css'
 
-export default function Home() {
+
+function App() {
+  const languagesList = ['Javascript', 'React', 'Flutter', 'PHP', 'Laravel', 'Python', 'Java'];
+
+  const [currentLanguageIndex, setCurrentLanguageIndex] = useState(0);
+
+  const handleNextLanguage = () => {
+    setCurrentLanguageIndex((prevIndex) =>
+      prevIndex === languagesList.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handlePrevLanguage = () => {
+    setCurrentLanguageIndex((prevIndex) =>
+      prevIndex === 0 ? languagesList.length - 1 : prevIndex - 1
+    );
+  };
+
+  return (
+    <main>
+      <Home
+        currentLanguageIndex={currentLanguageIndex}
+        handleNextLanguage={handleNextLanguage}
+        handlePrevLanguage={handlePrevLanguage}
+      />
+    </main>
+  );
+};
+
+export default App;
+
+// Home component (now without state management)
+function Home({ currentLanguageIndex, handleNextLanguage, handlePrevLanguage }) {
+  const languagesList = ['Javascript', 'React', 'Flutter', 'PHP', 'Laravel', 'Python', 'Java'];
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
+      <div className={styles.nameHead}>
+        <h1>Cameron Angelilli</h1>
         <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
+          Welcome to my resume. I am a 23-year-old programmer looking for a
+          junior software development position <br></br> Take a look at my
+          resume!
         </p>
+      </div>
+
+      <div className={styles.languages}>
+        <h3>Here are a few languages and frameworks I have worked with:</h3>
         <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+          <button onClick={handlePrevLanguage} style={{border: 'none',
+                background: 'none',
+                padding: 0,
+                cursor: 'pointer', // Optional: Add cursor style for better user experience
+                outline: 'none',}}>
+            <Image 
+            src={`/left-arrow.png`}
+            width={100}
+            height={100}
+            >
+            </Image>
+          </button>
+          <Image
+            src={`/images/${languagesList[currentLanguageIndex].toLowerCase()}.png`}
+            alt={languagesList[currentLanguageIndex]}
+            width={100}
+            height={100}
+          />
+          <button onClick={handleNextLanguage} style={{
+                border: 'none',
+                background: 'none',
+                padding: 0,
+                cursor: 'pointer', // Optional: Add cursor style for better user experience
+                outline: 'none', // Optional: Remove outline on focus
+              }}>
+            <Image 
+            src={`/right-arrow.png`}
+            width={100}
+            height={100}
+            ></Image>
+            </button>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <p>{languagesList[currentLanguageIndex]}</p>
       </div>
     </main>
-  )
+  );
 }
